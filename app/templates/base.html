@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="PhishLens analyzes URLs for phishing and malicious indicators using structure, domain, DNS, HTTPS and threat-intelligence checks.">
+  <title>{% block title %}PhishLens{% endblock %} &middot; PhishLens</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/logo.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-page="{% block page %}home{% endblock %}">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="{{ url_for('main.index') }}" aria-label="PhishLens home">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="" width="34" height="34">
+        <span class="brand-name">Phish<span>Lens</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="{{ url_for('main.index') }}" {% if request.endpoint == 'main.index' %}aria-current="page"{% endif %}>Scanner</a>
+        <a href="{{ url_for('main.history_page') }}" {% if request.endpoint == 'main.history_page' %}aria-current="page"{% endif %}>History</a>
+        <a href="{{ url_for('main.index') }}#how-it-works">How it works</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>PhishLens</strong> &mdash; URL security analysis project.
+        <span class="muted">Rule-based heuristics plus VirusTotal and Google Safe Browsing lookups.</span>
+      </div>
+      <div class="muted small">
+        Results are advisory, not a guarantee of safety. PhishLens never opens the URLs you scan.
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+</html>

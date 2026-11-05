@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="PhishLens">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 4 55 12v18c0 14.5-9.6 25.6-23 30C18.6 55.6 9 44.5 9 30V12L32 4z" fill="#0b1630" stroke="url(#g)" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="30" cy="29" r="11" fill="none" stroke="url(#g)" stroke-width="4"/>
+  <path d="m38.5 37.5 9 9" stroke="url(#g)" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M25 29h10M30 24v10" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+</svg>

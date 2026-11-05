@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Scan history{% endblock %}
+{% block page %}history{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="section-head section-head-row page-title">
+    <div>
+      <h1 class="h1-sm">Scan history</h1>
+      <p class="muted">Stored locally in SQLite on this server. The newest 500 scans are kept.</p>
+    </div>
+    <button id="clear-history" class="btn btn-danger" type="button" hidden>Clear history</button>
+  </div>
+
+  <p id="history-error" class="form-error" role="alert" hidden></p>
+  <div class="table-wrap">
+    <table class="table" id="history-table">
+      <thead>
+        <tr>
+          <th>Date</th><th>URL</th><th>Domain</th><th>Score</th><th>Classification</th><th>Verdict</th><th>Scan status</th>
+          <th><span class="sr-only">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody id="history-body"></tbody>
+    </table>
+  </div>
+  <p id="history-empty" class="empty" hidden>No scans yet. <a href="{{ url_for('main.index') }}">Run your first scan</a>.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Scan report #{{ scan_id }}{% endblock %}
+{% block page %}report{% endblock %}
+
+{% block content %}
+<div class="container" id="report-page" data-scan-id="{{ scan_id }}">
+  <div class="page-head">
+    <a class="btn btn-ghost" href="{{ url_for('main.history_page') }}">&larr; Back to history</a>
+    <a class="btn btn-ghost" href="{{ url_for('main.index') }}">New scan</a>
+  </div>
+  <p id="report-loading" class="muted">Loading report&hellip;</p>
+  <p id="report-error" class="form-error" role="alert" hidden></p>
+  <section id="report-root" class="report" aria-live="polite" hidden></section>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}URL Threat Scanner{% endblock %}
+{% block page %}home{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow">Phishing &amp; malicious URL detection</p>
+    <h1>Detect Threats Before They Reach You.</h1>
+    <p class="lead">
+      PhishLens inspects a link's structure, domain, DNS, HTTPS and threat-intelligence reputation, then
+      explains exactly why it looks suspicious &mdash; or why it could not be checked.
+    </p>
+
+    <form id="scan-form" class="scan-form" novalidate autocomplete="off">
+      <label for="url-input" class="sr-only">URL to scan</label>
+      <input id="url-input" name="url" type="text" inputmode="url" spellcheck="false" autocapitalize="off"
+             maxlength="2048" placeholder="Paste a URL, e.g. https://example.com/login" required>
+      <button id="scan-btn" type="submit" class="btn btn-primary">
+        <span class="btn-label">Scan URL</span>
+      </button>
+    </form>
+    <p id="form-error" class="form-error" role="alert" hidden></p>
+
+    <div class="examples">
+      <span class="muted">Try an example:</span>
+      <button type="button" class="chip" data-url="https://github.com">github.com</button>
+      <button type="button" class="chip" data-url="http://example.com">example.com (http)</button>
+      <button type="button" class="chip" data-url="http://paypal-secure-login.verify-account.example.xyz/signin?update=1">suspicious keywords</button>
+      <button type="button" class="chip" data-url="http://93.184.216.34/secure/login">IP address</button>
+    </div>
+    <p class="muted small examples-note">
+      Examples are only for testing the interface &mdash; they are <strong>not</strong> confirmed safe or malicious.
+    </p>
+
+    <aside class="privacy-note" aria-label="Privacy notice">
+      <strong>Privacy:</strong> when threat-intelligence services are enabled, the submitted URL is sent to
+      <strong>VirusTotal</strong> (which may store it and make it visible to its community if the URL is new to it) and to
+      <strong>Google Safe Browsing</strong>. Do not scan links containing private tokens or personal data.
+      PhishLens itself never opens the URL.
+    </aside>
+    <ul id="provider-status" class="provider-status" aria-label="Available checks"></ul>
+  </div>
+</section>
+
+<div class="container">
+  <section id="scan-panel" class="panel scan-panel" aria-live="polite" hidden>
+    <div class="panel-head">
+      <h2>Scanning <span id="scan-target" class="mono target"></span></h2>
+      <span id="progress-mode" class="badge"></span>
+    </div>
+    <ol id="stage-list" class="stages"></ol>
+  </section>
+
+  <section id="report-root" class="report" aria-live="polite" hidden></section>
+
+  <section class="section" aria-labelledby="stats-title">
+    <div class="section-head">
+      <h2 id="stats-title">Security statistics</h2>
+      <p class="muted">Totals for scans run on this PhishLens instance (stored locally).</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><span class="stat-value" id="stat-total">&ndash;</span><span class="stat-label">URLs scanned</span></div>
+      <div class="stat stat-critical"><span class="stat-value" id="stat-confirmed">&ndash;</span><span class="stat-label">Confirmed malicious</span></div>
+      <div class="stat stat-medium"><span class="stat-value" id="stat-suspicious">&ndash;</span><span class="stat-label">Suspicious</span></div>
+      <div class="stat"><span class="stat-value" id="stat-avg">&ndash;</span><span class="stat-label">Average risk score</span></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="recent-title">
+    <div class="section-head section-head-row">
+      <div>
+        <h2 id="recent-title">Recent scans</h2>
+        <p class="muted">Your latest results. Open one to see the full report.</p>
+      </div>
+      <a class="btn btn-ghost" href="{{ url_for('main.history_page') }}">View all history</a>
+    </div>
+    <div class="table-wrap">
+      <table class="table" id="recent-table">
+        <thead>
+          <tr><th>Date</th><th>URL</th><th>Score</th><th>Classification</th><th>Verdict</th><th><span class="sr-only">Actions</span></th></tr>
+        </thead>
+        <tbody id="recent-body"></tbody>
+      </table>
+    </div>
+    <p id="recent-empty" class="empty" hidden>No scans yet. Paste a URL above to run your first scan.</p>
+  </section>
+
+  <section id="how-it-works" class="section" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 id="how-title">How PhishLens decides</h2>
+      <p class="muted">Seven real stages. Every result comes from an implemented check; anything that cannot run is shown as <em>Not Available</em>, never as clean.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how"><h3>1&ndash;2 &middot; URL checks</h3><p>Validation, normalization and structure: length, keywords, IP hosts, <code>@</code> tricks, shorteners, brand look-alikes, homographs.</p></div>
+      <div class="how"><h3>3&ndash;4 &middot; Domain &amp; DNS</h3><p>TLD, domain age (RDAP), DNS records, resolved IP scope and a TLS handshake to inspect the HTTPS certificate.</p></div>
+      <div class="how"><h3>5 &middot; Threat intelligence</h3><p>VirusTotal detections and Google Safe Browsing matches &mdash; the only sources that can mark a URL <em>confirmed</em> malicious.</p></div>
+      <div class="how"><h3>6&ndash;7 &middot; Risk &amp; report</h3><p>A 0&ndash;100 score without double counting correlated clues, a verdict, and an explanation for every finding.</p></div>
+    </div>
+  </section>
+</div>
+{% endblock %}
